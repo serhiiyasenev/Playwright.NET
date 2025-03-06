@@ -34,13 +34,13 @@ namespace Playwright.NET
             Context = await Browser.NewContextAsync(ContextOptions());
             Page = await Context.NewPageAsync();
 
-            await Context.Tracing.StartAsync(new TracingStartOptions
-            {
-                Title = $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}",
-                Screenshots = true,
-                Snapshots = true,
-                Sources = true
-            });
+            // await Context.Tracing.StartAsync(new TracingStartOptions
+            // {
+            //     Title = $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}",
+            //     Screenshots = true,
+            //     Snapshots = true,
+            //     Sources = true
+            // });
         }
 
         [TearDown]
