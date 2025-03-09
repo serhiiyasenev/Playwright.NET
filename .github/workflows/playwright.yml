@@ -33,7 +33,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Install Playwright Browsers
-        run: pwsh bin/Release/net8.0/playwright.ps1 install
+        run: ./bin/Release/net8.0/playwright.sh install
 
       - name: Run Playwright tests
         run: |
