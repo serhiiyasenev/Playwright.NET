@@ -65,8 +65,7 @@ jobs:
           path: TestResults/
           retention-days: 7
           
-      - uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
+      - name: TestResults directory files
+        run: |
+          echo "Contents of ./TestResults:"
+          ls -la ./TestResults/
