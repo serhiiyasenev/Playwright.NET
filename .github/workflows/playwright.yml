@@ -26,9 +26,11 @@ jobs:
       - name: Build
         run: dotnet build
         
-      - name: Ensure browsers are installed
-        run: ls -la ./Playwright.NET/bin/Debug/net8.0/
-             pwsh bin/Debug/net8.0/playwright.sh install --with-deps
+      - name: Install Playwright Browsers
+        run: |
+          echo "Contents of bin/Debug/net8.0/:"
+          ls -la ./Playwright.NET/bin/Debug/net8.0/
+          ./Playwright.NET/bin/Debug/net8.0/playwright.sh install
 
       - name: Run Playwright tests
         run: |
