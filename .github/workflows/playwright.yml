@@ -23,24 +23,23 @@ jobs:
         with:
           dotnet-version: 8.0.x
           
-      - name: Build & Install
+      - name: Build
         run: dotnet build
         
       - name: Ensure browsers are installed
-        run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+        run: ls -la ./Playwright.NET/bin/Debug/net8.0/
+             pwsh bin/Debug/net8.0/playwright.sh install --with-deps
 
       - name: Run Playwright tests
         run: |
           if [ "${{ github.event.inputs.testName }}" != "" ]; then
             echo "Running tests filtered by name: '${{ github.event.inputs.testName }}' with workers count = ${{ github.event.inputs.workersCount }}"
-            dotnet test
-              --filter "Name~${{ github.event.inputs.testName }}" \
+            dotnet test --filter "Name~${{ github.event.inputs.testName }}" \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
               --logger:"trx;LogFileName=TestResults/results.trx"
           else
             echo "Running all tests with workers count = ${{ github.event.inputs.workersCount }}"
-            dotnet test
-              -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
+            dotnet test -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
               --logger:"trx;LogFileName=TestResults/results.trx"
           fi
 
