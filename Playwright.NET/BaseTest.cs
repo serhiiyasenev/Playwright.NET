@@ -29,7 +29,7 @@ namespace Playwright.NET
             {
                 Headless = false,
                 Args = new[] { "--start-maximized" },
-                DownloadsPath = downloadsPath,
+                //DownloadsPath = downloadsPath,
             });
             Context = await Browser.NewContextAsync(ContextOptions());
             Page = await Context.NewPageAsync();
