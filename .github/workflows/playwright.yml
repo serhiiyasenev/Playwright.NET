@@ -27,24 +27,32 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ./Playwright.NET/Playwright.NET.csproj
 
-      - name: Build Project
-        run: dotnet publish ./Playwright.NET/Playwright.NET.csproj -c Release --no-restore -o ./publish
+      - name: Publish Project
+        run: dotnet publish ./Playwright.NET/Playwright.NET.csproj -c Release --no-restore
 
       - name: Install Playwright Browsers
-        run: ./publish/playwright.sh install
+        run: ./Playwright.NET/bin/Release/net8.0/publish/playwright.sh install
 
       - name: Run Playwright tests
         run: |
           if [ "${{ github.event.inputs.testName }}" != "" ]; then
-          echo "Running tests filtered by name: '${{ github.event.inputs.testName }}' with workers count = ${{ github.event.inputs.workersCount }}"
-          dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release --filter "Name~${{ github.event.inputs.testName }}" -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} --logger:"trx;LogFileName=TestResults/results.trx"
+            echo "Running tests filtered by name: '${{ github.event.inputs.testName }}' with workers count = ${{ github.event.inputs.workersCount }}"
+            dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release \
+              --filter "Name~${{ github.event.inputs.testName }}" \
+              -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
+              --logger:"trx;LogFileName=TestResults/results.trx"
           else
-          echo "Running all tests with workers count = ${{ github.event.inputs.workersCount }}"
-          dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} --logger:"trx;LogFileName=TestResults/results.trx"
+            echo "Running all tests with workers count = ${{ github.event.inputs.workersCount }}"
+            dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release \
+              -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
+              --logger:"trx;LogFileName=TestResults/results.trx"
           fi
-      
+
+      - name: Ensure TestResults directory exists
+        run: mkdir -p TestResults
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
