@@ -11,14 +11,14 @@ namespace Playwright.NET
 
             // Expect a title "to contain" a substring.
             var title = await Page.TitleAsync();
-            Assert.IsTrue(title.Contains("Playwright"));
+            Assert.That(title.Contains("Playwright"));
 
             // create a locator
             var getStarted = Page.Locator("text=Get Started");
             var href = await getStarted.GetAttributeAsync("href");
 
             // Expect an attribute "to be strictly equal" to the value.
-            Assert.IsTrue(href.Equals("/docs/intro"));
+            Assert.That(href!.Equals("/docs/intro"));
 
             // Click the get started link.
             await getStarted.ClickAsync();
@@ -26,7 +26,7 @@ namespace Playwright.NET
             // Expects the URL to contain intro.
             var currentUrl = Page.Url;
             Thread.Sleep(2000); // for Video
-            Assert.IsTrue(currentUrl.Equals("https://playwright.dev/docs/intro"));
+            Assert.That(currentUrl.Equals("https://playwright.dev/docs/intro"));
         }
     }
 }
