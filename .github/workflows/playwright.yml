@@ -30,8 +30,8 @@ jobs:
         run: dotnet restore
 
       - name: Build Project
-        run: dotnet publish -c Release --no-restore -o ./publish
-
+        run: dotnet publish ./Playwright.NET/Playwright.NET.csproj -c Release --no-restore -o ./publish
+        
       - name: Install Playwright Browsers
         run: ./publish/playwright.sh install
 
