@@ -5,7 +5,7 @@ namespace Playwright.NET
     public class Tests2 : BaseTest
     {
         [Test]
-        public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingToTheIntroPage()
+        public async Task HomePageHasPlaywrightInTitleAndGetStartedLinkLinkingToTheIntroPage()
         {
             await Page.GotoAsync("https://playwright.dev");
 
