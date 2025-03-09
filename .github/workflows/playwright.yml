@@ -48,7 +48,7 @@ jobs:
           echo "Running tests filtered by name: '${{ github.event.inputs.testName }}' with workers count = ${{ github.event.inputs.workersCount }}"
           xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
               dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release \
-              --filter "Name~${{ github.event.inputs.testName }}" \
+              --filter "FullyQualifiedName~${{ github.event.inputs.testName }}" \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
               --logger:"trx;LogFileName=TestResults/results.trx"
           else
