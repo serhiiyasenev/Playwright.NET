@@ -17,6 +17,7 @@ namespace Playwright.NET
         {
             ViewportSize = ViewportSize.NoViewport,
             IgnoreHTTPSErrors = true,
+            ScreenSize = new ScreenSize {Width = 1920, Height = 1080},
             // RecordVideoDir = videoPath,
             // RecordVideoSize = new RecordVideoSize { Width = 640, Height = 480 },
         };
