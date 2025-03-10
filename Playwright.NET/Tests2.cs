@@ -29,7 +29,7 @@ namespace Playwright.NET
             var currentUrl = Page.Url;
             Thread.Sleep(2000); // for Video
             Assert.That(currentUrl.Equals("https://playwright.dev/docs/intro"));
-            await Page.ScreenshotAsync(new PageScreenshotOptions { Path = "Playwright.NET/TestResults/screenshot1.jpg" });
+            await Page.ScreenshotAsync(new PageScreenshotOptions { Path = "./Playwright.NET/Playwright.NET/Playwright.NET/TestResults/screenshot2.jpg" });
         }
     }
 }
