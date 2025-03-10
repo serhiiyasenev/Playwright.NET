@@ -1,0 +1,60 @@
+name: Run tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      testName:
+        description: 'Part of the test name to run'
+        required: false
+        default: ''
+      workersCount:
+        description: 'Workers Count'
+        required: false
+        default: '1'
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright/dotnet:v1.50.0-jammy
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore ./Playwright.NET/Playwright.NET.csproj
+
+      - name: Publish Project
+        run: dotnet publish ./Playwright.NET/Playwright.NET.csproj -c Release --no-restore -o ./publish
+
+      - name: Install Playwright Browsers
+        run: |
+          echo "Contents of ./publish:"
+          ls -la ./publish/
+          pwsh ./publish/playwright.ps1 install --with-deps
+          
+      - name: Run Playwright tests (headed mode)
+        run: |
+          if [ "${{ github.event.inputs.testName }}" != "" ]; then
+            echo "Running tests filtered by name: '${{ github.event.inputs.testName }}' with workers count = '${{ github.event.inputs.workersCount }}'"
+            xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
+            dotnet test --logger:"trx;LogFileName=results.trx" --filter "FullyQualifiedName~${{ github.event.inputs.testName }}" -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }}
+          else
+            echo "Running all tests with workers count = '${{ github.event.inputs.workersCount }}'"
+            xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
+            dotnet test --logger:"trx;LogFileName=results.trx" -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount}}
+          fi
+          
+      - uses: actions/upload-artifact@v4
+        with:
+          name: playwright-dotnet-test-results
+          path: Playwright.NET/TestResults/
+          retention-days: 7
+          if-no-files-found: ignore
+        
