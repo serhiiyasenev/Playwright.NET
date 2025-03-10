@@ -58,7 +58,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: playwright-dotnet-test-results
-          path: .Playwright.NET./TestResults/results.trx
+          path: Playwright.NET/TestResults/
           retention-days: 7
           if-no-files-found: ignore
           
@@ -67,7 +67,7 @@ jobs:
             echo "Checking root directory:"
             ls -la
             echo "Checking Playwright.NET directory:"
-            ls -la Playwright.NET/
+            ls -la Playwright.NET/TestResults/
             echo "Checking Playwright.NET/bin/Release/net8.0 directory:"
             ls -la Playwright.NET/bin/Release/net8.0/
             echo "Checking TestResults directory:"
