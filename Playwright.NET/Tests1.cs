@@ -1,3 +1,5 @@
+using Microsoft.Playwright;
+
 namespace Playwright.NET
 {
     [Parallelizable(ParallelScope.Self)]
@@ -23,6 +25,7 @@ namespace Playwright.NET
 
             // Expects the URL to contain intro.
             await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
+            await Page.ScreenshotAsync(new PageScreenshotOptions { Path = "Playwright.NET/TestResults/screenshot1.jpg" });
         }
     }
 }
