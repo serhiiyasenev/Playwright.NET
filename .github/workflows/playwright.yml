@@ -58,7 +58,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: playwright-dotnet-test-results
-          path: ./TestResults/results.trx
+          path: .Playwright.NET./TestResults/results.trx
           retention-days: 7
           if-no-files-found: ignore
           
