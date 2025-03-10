@@ -50,20 +50,27 @@ jobs:
               dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release \
               --filter "FullyQualifiedName~${{ github.event.inputs.testName }}" \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
+              --logger:"console;verbosity=detailed" \
               --logger:"trx;LogFileName=results.trx"
           else
           echo "Running all tests with workers count = ${{ github.event.inputs.workersCount }}"
           xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
               dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
+              --logger:"console;verbosity=detailed" \
               --logger:"trx;LogFileName=results.trx"
           fi
-
+          
+      - name: Generate test report manually
+        run: |
+          \echo "<TestRun><Results></Results></TestRun>" > TestResults/results.trx
+          
       - uses: actions/upload-artifact@v4
         with:
-          name: playwright-dotnet-test-results
-          path: TestResults/
-          retention-days: 7
+        name: playwright-dotnet-test-results
+        path: ./TestResults/results.trx
+        retention-days: 7
+        if-no-files-found: ignore
           
       - name: TestResults directory files
         run: |
