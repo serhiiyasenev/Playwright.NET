@@ -25,6 +25,7 @@ namespace Playwright.NET
 
             // Expects the URL to contain intro.
             await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
+            Thread.Sleep(1000); // for Video
             var testResultsPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "TestResults");
             await Page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(testResultsPath, "screenshot1.jpg") });
         }
