@@ -67,5 +67,5 @@ jobs:
           
       - name: TestResults directory files
         run: |
-          echo "Contents of ./TestResults:"
-          ls -la ./TestResults/
+          echo "ls -la:"
+          ls -la
