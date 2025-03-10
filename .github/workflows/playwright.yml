@@ -65,7 +65,14 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
           
-      - name: TestResults directory files
+      - name: Debug file locations
         run: |
-          echo "ls -la:"
-          ls -la
+            echo "Checking root directory:"
+            ls -la
+            echo "Checking Playwright.NET directory:"
+            ls -la Playwright.NET/
+            echo "Checking Playwright.NET/bin/Release/net8.0 directory:"
+            ls -la Playwright.NET/bin/Release/net8.0/
+            echo "Checking TestResults directory:"
+            ls -la TestResults/ || echo "TestResults directory does not exist"
+        
