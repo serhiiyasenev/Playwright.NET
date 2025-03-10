@@ -48,7 +48,7 @@ jobs:
               --filter "FullyQualifiedName~${{ github.event.inputs.testName }}" \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
               --logger:"console;verbosity=detailed" \
-              --logger:"trx;LogFileName=TestResults/results.trx"
+              --logger:"trx;LogFileName=results.trx"
           else
           echo "Running all tests with workers count = ${{ github.event.inputs.workersCount }}"
           xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
@@ -61,15 +61,4 @@ jobs:
           path: Playwright.NET/TestResults/
           retention-days: 7
           if-no-files-found: ignore
-          
-      - name: Debug file locations
-        run: |
-            echo "Checking root directory:"
-            ls -la
-            echo "Checking Playwright.NET directory:"
-            ls -la Playwright.NET/TestResults/
-            echo "Checking Playwright.NET/bin/Release/net8.0 directory:"
-            ls -la Playwright.NET/bin/Release/net8.0/
-            echo "Checking TestResults directory:"
-            ls -la TestResults/ || echo "TestResults directory does not exist"
         
