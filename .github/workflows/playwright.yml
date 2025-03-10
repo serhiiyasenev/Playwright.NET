@@ -38,9 +38,6 @@ jobs:
           echo "Contents of ./publish:"
           ls -la ./publish/
           pwsh ./publish/playwright.ps1 install --with-deps
-        
-      - name: Ensure TestResults directory exists
-        run: mkdir -p TestResults
           
       - name: Run Playwright tests (headed mode)
         run: |
@@ -51,19 +48,15 @@ jobs:
               --filter "FullyQualifiedName~${{ github.event.inputs.testName }}" \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
               --logger:"console;verbosity=detailed" \
-              --logger:"trx;LogFileName=results.trx"
+              --logger:"trx;LogFileName=TestResults/results.trx"
           else
           echo "Running all tests with workers count = ${{ github.event.inputs.workersCount }}"
           xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
               dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
               --logger:"console;verbosity=detailed" \
-              --logger:"trx;LogFileName=results.trx"
+              --logger:"trx;LogFileName=TestResults/results.trx"
           fi
-          
-      - name: Generate test report manually
-        run: |
-          \echo "<TestRun><Results></Results></TestRun>" > TestResults/results.trx
           
       - uses: actions/upload-artifact@v4
         with:
