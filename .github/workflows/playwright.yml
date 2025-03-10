@@ -44,11 +44,10 @@ jobs:
           if [ "${{ github.event.inputs.testName }}" != "" ]; then
           echo "Running tests filtered by name: '${{ github.event.inputs.testName }}' with workers count = ${{ github.event.inputs.workersCount }}"
           xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
-              dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release \
+              dotnet test ./Playwright.NET/Playwright.NET.csproj --no-build --configuration Release --logger:"trx;LogFileName=results.trx" \
               --filter "FullyQualifiedName~${{ github.event.inputs.testName }}" \
               -- NUnit.NumberOfTestWorkers=${{ github.event.inputs.workersCount }} \
               --logger:"console;verbosity=detailed" \
-              --logger:"trx;LogFileName=results.trx"
           else
           echo "Running all tests with workers count = ${{ github.event.inputs.workersCount }}"
           xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
